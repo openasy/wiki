@@ -1,0 +1,5351 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenAsy Wiki",
+    "version": "0.1.0",
+    "description": "The company's handbook: spaces from wiki.yaml, pages with every change kept, the search, reviews and policies people confirm they have read. Anyone signed in may call it; what they read, write and manage in each space follows the space's groups, with the product role as a floor (owners and admins manage every space, editors edit and viewers read every space).",
+    "license": {
+      "name": "AGPL-3.0-only",
+      "identifier": "AGPL-3.0-only"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "security": [
+    {
+      "session": []
+    },
+    {
+      "apiToken": []
+    },
+    {
+      "adminToken": []
+    }
+  ],
+  "paths": {
+    "/api/v1/version": {
+      "get": {
+        "operationId": "version",
+        "tags": [
+          "Product"
+        ],
+        "summary": "Product and version",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Version"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "operationId": "products",
+        "tags": [
+          "Product"
+        ],
+        "summary": "The install's other products",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductList"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/summary": {
+      "get": {
+        "operationId": "summary",
+        "tags": [
+          "Product"
+        ],
+        "summary": "Counts for the caller's menu",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "me",
+        "tags": [
+          "Product"
+        ],
+        "summary": "The caller's groups and role in each space",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Me"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/settings": {
+      "get": {
+        "operationId": "settings",
+        "tags": [
+          "Product"
+        ],
+        "summary": "The settings file as applied",
+        "description": "Read-only: the file is the only place they are changed.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Settings"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user"
+      }
+    },
+    "/api/v1/team": {
+      "get": {
+        "operationId": "team",
+        "tags": [
+          "Product"
+        ],
+        "summary": "The people the wiki knows, for choosing an owner",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/spaces": {
+      "get": {
+        "operationId": "spaces",
+        "tags": [
+          "Spaces"
+        ],
+        "summary": "The spaces the caller can read, with their role",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpaceList"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/spaces/{key}/pages": {
+      "get": {
+        "operationId": "spaceTree",
+        "tags": [
+          "Spaces"
+        ],
+        "summary": "A space's pages, as a tree by parent",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "The space's key from the file.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tree"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/spaces/{key}/export": {
+      "get": {
+        "operationId": "exportSpace",
+        "tags": [
+          "Spaces"
+        ],
+        "summary": "A space as a ZIP of Markdown files",
+        "description": "Pages in folders as in the tree, their files under files/, links between them made relative.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "The space's key from the file.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The ZIP.",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "operationId": "search",
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search every page the caller can read",
+        "description": "Full text (SQLite FTS5), every word a prefix; case, accents and the Turkish dotted and dotless i are alike. All words first, any word when none match all.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "The words.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "space",
+            "in": "query",
+            "required": false,
+            "description": "Only this space.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user"
+      }
+    },
+    "/api/v1/find": {
+      "get": {
+        "operationId": "findPages",
+        "tags": [
+          "Search"
+        ],
+        "summary": "Pages by title, for links and the search window",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Words of the title; empty for the latest.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Found"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/templates": {
+      "get": {
+        "operationId": "templates",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Templates a new page can start from",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Templates"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/import": {
+      "post": {
+        "operationId": "importPages",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Import Markdown or HTML files from another wiki",
+        "description": "Each file becomes a page under parent. Markdown front matter may give title; otherwise the first # heading or the file name is the title.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "space",
+                  "format",
+                  "files"
+                ],
+                "properties": {
+                  "space": {
+                    "type": "string"
+                  },
+                  "parent": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": [
+                      "markdown",
+                      "html"
+                    ]
+                  },
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "content"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "content": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Imported"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "413": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      }
+    },
+    "/api/v1/pages": {
+      "post": {
+        "operationId": "createPage",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Add a page",
+        "description": "From a template, HTML or Markdown; sanitized before it is stored. Marking it a policy needs the admin role in the space.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "space",
+                  "title"
+                ],
+                "properties": {
+                  "space": {
+                    "type": "string"
+                  },
+                  "parent": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "template": {
+                    "type": "string"
+                  },
+                  "html": {
+                    "type": "string"
+                  },
+                  "markdown": {
+                    "type": "string"
+                  },
+                  "policy": {
+                    "type": "boolean"
+                  },
+                  "isTemplate": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      }
+    },
+    "/api/v1/pages/{id}": {
+      "get": {
+        "operationId": "getPage",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "A page, with its owner, review, policy, links, latest changes and who else has it open",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "description": "0 to leave it out of the page's readers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      },
+      "patch": {
+        "operationId": "updatePage",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Move a page, give it an owner, mark it a policy or a template",
+        "description": "Content is changed with publish. owner: the owner or a space admin (anyone when the owner left). policy: space admins. space moves the page and those under it, with the editor role in both.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                  "owner": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "policy": {
+                    "type": "boolean"
+                  },
+                  "template": {
+                    "type": "boolean"
+                  },
+                  "parent": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "position": {
+                    "type": "integer"
+                  },
+                  "space": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      },
+      "delete": {
+        "operationId": "deletePage",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Delete a page with its history",
+        "description": "Refused while pages are under it. A policy needs the admin role.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      }
+    },
+    "/api/v1/pages/{id}/publish": {
+      "post": {
+        "operationId": "publishPage",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Publish a change",
+        "description": "baseRevision is the revision the change started from. When the page has changed since, both changes are merged block by block (paragraphs, headings, lists, tables). When both changed the same or neighbouring blocks, nothing is published: 409 edit-conflict carries both versions to choose from, and the revision to publish against.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "baseRevision"
+                ],
+                "properties": {
+                  "baseRevision": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "html": {
+                    "type": "string"
+                  },
+                  "markdown": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  },
+                  "notify": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "followers",
+                      "everyone"
+                    ],
+                    "description": "Who is told by email: nobody (a small fix), the page's followers (default) or everyone who can read it. For a policy, anything but none is a new version everyone is asked to read."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Published"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      }
+    },
+    "/api/v1/pages/{id}/review": {
+      "post": {
+        "operationId": "reviewPage",
+        "tags": [
+          "Review"
+        ],
+        "summary": "Mark a page reviewed: it is still right",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                  "note": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor",
+        "description": "Needs the editor role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/pages/{id}/revisions": {
+      "get": {
+        "operationId": "pageRevisions",
+        "tags": [
+          "History"
+        ],
+        "summary": "Every change, newest first",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Changes"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/pages/{id}/revisions/{n}": {
+      "get": {
+        "operationId": "pageRevision",
+        "tags": [
+          "History"
+        ],
+        "summary": "A revision as it was",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "n",
+            "in": "path",
+            "required": true,
+            "description": "The revision.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Revision"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/pages/{id}/revisions/{n}/restore": {
+      "post": {
+        "operationId": "restoreRevision",
+        "tags": [
+          "History"
+        ],
+        "summary": "Publish an old revision again",
+        "description": "A new revision with the old words; nothing is lost.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "n",
+            "in": "path",
+            "required": true,
+            "description": "The revision.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Published"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      }
+    },
+    "/api/v1/pages/{id}/diff": {
+      "get": {
+        "operationId": "pageDiff",
+        "tags": [
+          "History"
+        ],
+        "summary": "What changed between two revisions, block by block",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "description": "The earlier revision; 0 for an empty page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "description": "The later revision.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Diff"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/pages/{id}/draft": {
+      "get": {
+        "operationId": "getDraft",
+        "tags": [
+          "Editing"
+        ],
+        "summary": "The caller's unpublished draft",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Draft"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor",
+        "description": "Needs the editor role in the page's space; a page the caller cannot read answers 404."
+      },
+      "put": {
+        "operationId": "saveDraft",
+        "tags": [
+          "Editing"
+        ],
+        "summary": "Save the caller's draft as they write",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "base",
+                  "title",
+                  "html"
+                ],
+                "properties": {
+                  "base": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "html": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftSaved"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor",
+        "description": "Needs the editor role in the page's space; a page the caller cannot read answers 404."
+      },
+      "delete": {
+        "operationId": "dropDraft",
+        "tags": [
+          "Editing"
+        ],
+        "summary": "Throw the draft away",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Gone."
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor",
+        "description": "Needs the editor role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/pages/{id}/presence": {
+      "post": {
+        "operationId": "presence",
+        "tags": [
+          "Editing"
+        ],
+        "summary": "Say the caller has the page open, and whether and where they edit; answers who else has",
+        "description": "Sent every few seconds while the page is open; someone not heard from for 30 seconds has left. leave: true says so at once.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                  "editing": {
+                    "type": "boolean"
+                  },
+                  "section": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "leave": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Presence"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      }
+    },
+    "/api/v1/pages/{id}/follow": {
+      "put": {
+        "operationId": "follow",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Follow a page: be told by email when it changes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Following"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      },
+      "delete": {
+        "operationId": "unfollow",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Stop following a page",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Following"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/pages/{id}/export": {
+      "get": {
+        "operationId": "exportPage",
+        "tags": [
+          "Pages"
+        ],
+        "summary": "A page as Markdown or one HTML file",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "description": "markdown (default) or html.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The file.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/pages/{id}/comments": {
+      "get": {
+        "operationId": "comments",
+        "tags": [
+          "Comments"
+        ],
+        "summary": "A page's comments",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comments"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      },
+      "post": {
+        "operationId": "addComment",
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Comment on a page, or answer a comment",
+        "description": "Plain text. Everyone who can read the page may comment.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "body"
+                ],
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  },
+                  "parent": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      }
+    },
+    "/api/v1/comments/{id}": {
+      "patch": {
+        "operationId": "resolveComment",
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Resolve a comment, or open it again",
+        "description": "The space's editors and the comment's writer.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The comment's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "resolved"
+                ],
+                "properties": {
+                  "resolved": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      },
+      "delete": {
+        "operationId": "deleteComment",
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Delete a comment and its answers",
+        "description": "Its writer, or an admin of the space.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The comment's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      }
+    },
+    "/api/v1/pages/{id}/attachments": {
+      "get": {
+        "operationId": "attachments",
+        "tags": [
+          "Attachments"
+        ],
+        "summary": "A page's files",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachments"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      },
+      "post": {
+        "operationId": "attach",
+        "tags": [
+          "Attachments"
+        ],
+        "summary": "Add a file or image to a page",
+        "description": "The file is the body, with its own Content-Type; at most attachments.max_size.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "The file's name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "413": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "415": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      }
+    },
+    "/api/v1/attachments/{id}": {
+      "get": {
+        "operationId": "attachment",
+        "tags": [
+          "Attachments"
+        ],
+        "summary": "A file",
+        "description": "PNG, JPEG, GIF, WebP and AVIF images are shown; every other type is downloaded as application/octet-stream. Each is sent with a sandbox content security policy, so even a file a browser opens runs nothing.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The file's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The file.",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      },
+      "delete": {
+        "operationId": "deleteAttachment",
+        "tags": [
+          "Attachments"
+        ],
+        "summary": "Delete a file",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The file's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor",
+        "description": "Needs the editor role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/attachments/{id}/{name}": {
+      "get": {
+        "operationId": "attachmentNamed",
+        "tags": [
+          "Attachments"
+        ],
+        "summary": "A file, at an address that ends in its name",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The file's id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The file's name; not checked.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The file.",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer",
+        "description": "Needs the viewer role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/api/v1/review": {
+      "get": {
+        "operationId": "toReview",
+        "tags": [
+          "Review"
+        ],
+        "summary": "Pages past their space's review period, the most read and longest overdue first",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/policies": {
+      "get": {
+        "operationId": "policies",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "Policies and how many have read their current version",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Policies"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "description": ""
+      }
+    },
+    "/api/v1/policies/{id}": {
+      "get": {
+        "operationId": "policy",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "A policy, and who has and has not read its current version",
+        "description": "The lists of people are for the space's editors; others get them empty.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      }
+    },
+    "/api/v1/policies/{id}/acknowledge": {
+      "post": {
+        "operationId": "acknowledge",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "Confirm the caller has read this version",
+        "description": "version must be the current one, so nobody confirms words they did not see.\n\nNeeds the viewer role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "version"
+                ],
+                "properties": {
+                  "version": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "422": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "viewer"
+      }
+    },
+    "/api/v1/policies/{id}/remind": {
+      "post": {
+        "operationId": "remind",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "Email everyone who has not read the current version",
+        "description": "Answers once the mail server has taken or refused each message.\n\nNeeds the editor role in the page's space; a page the caller cannot read answers 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reminded"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor"
+      }
+    },
+    "/api/v1/policies/{id}/acknowledgements": {
+      "get": {
+        "operationId": "acknowledgements",
+        "tags": [
+          "Policies"
+        ],
+        "summary": "Every confirmation of every version, as CSV, for Compliance",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The page's id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV.",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "apiToken": []
+          },
+          {
+            "adminToken": []
+          }
+        ],
+        "x-openasy-role": "user",
+        "x-openasy-space-role": "editor",
+        "description": "Needs the editor role in the page's space; a page the caller cannot read answers 404."
+      }
+    },
+    "/healthz": {
+      "get": {
+        "operationId": "healthz",
+        "tags": [
+          "Product"
+        ],
+        "summary": "Alive",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/readyz": {
+      "get": {
+        "operationId": "readyz",
+        "tags": [
+          "Product"
+        ],
+        "summary": "Ready",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Not ready.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "metrics",
+        "tags": [
+          "Product"
+        ],
+        "summary": "Prometheus metrics",
+        "responses": {
+          "200": {
+            "description": "Metrics.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "session": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "openasy_session"
+      },
+      "apiToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "An API token made under Settings, API tokens; it acts in every space with its role."
+      },
+      "adminToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Tests only."
+      }
+    },
+    "responses": {
+      "Problem": {
+        "description": "A problem (RFC 9457).",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Problem": {
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "string",
+            "description": "Stable; match on this.",
+            "enum": [
+              "invalid-token",
+              "invalid-json",
+              "invalid-body",
+              "forbidden-origin",
+              "forbidden",
+              "not-found",
+              "conflict",
+              "edit-conflict",
+              "payload-too-large",
+              "unsupported-media-type",
+              "internal-error",
+              "unauthenticated",
+              "invalid-credentials",
+              "mfa-required",
+              "mfa-setup-required",
+              "cross-site"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          }
+        },
+        "description": "An edit-conflict problem also carries revision, by, at, titleConflict, conflicts, mine and theirs (see EditConflict)."
+      },
+      "EditConflict": {
+        "type": "object",
+        "required": [
+          "revision",
+          "by",
+          "at",
+          "titleConflict",
+          "conflicts",
+          "mine",
+          "theirs"
+        ],
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "description": "The page's revision now; publish again with it as baseRevision."
+          },
+          "by": {
+            "type": "object",
+            "required": [
+              "email",
+              "name"
+            ],
+            "properties": {
+              "email": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "titleConflict": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "mine",
+                  "theirs"
+                ],
+                "properties": {
+                  "mine": {
+                    "type": "string"
+                  },
+                  "theirs": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "conflicts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "base",
+                "mine",
+                "theirs"
+              ],
+              "properties": {
+                "base": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "mine": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "theirs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "mine": {
+            "type": "object",
+            "required": [
+              "title",
+              "html"
+            ],
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "html": {
+                "type": "string",
+                "description": "Sanitized HTML: only a page's tags, links to http(s), mailto and the wiki, no script, styles or event handlers."
+              }
+            }
+          },
+          "theirs": {
+            "type": "object",
+            "required": [
+              "title",
+              "html"
+            ],
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "html": {
+                "type": "string",
+                "description": "Sanitized HTML: only a page's tags, links to http(s), mailto and the wiki, no script, styles or event handlers."
+              }
+            }
+          }
+        }
+      },
+      "Status": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "Version": {
+        "type": "object",
+        "required": [
+          "product",
+          "version"
+        ],
+        "properties": {
+          "product": {
+            "const": "wiki"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductList": {
+        "type": "object",
+        "required": [
+          "products"
+        ],
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "url"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Summary": {
+        "type": "object",
+        "required": [
+          "name",
+          "file",
+          "spaces",
+          "pages",
+          "toReview",
+          "policiesToRead",
+          "mail"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "file": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "spaces": {
+            "type": "integer"
+          },
+          "pages": {
+            "type": "integer"
+          },
+          "toReview": {
+            "type": "integer",
+            "description": "Pages the caller can read that are past their review period."
+          },
+          "policiesToRead": {
+            "type": "integer",
+            "description": "Policies whose current version the caller has not confirmed."
+          },
+          "mail": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Me": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "groups",
+          "spaces"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "spaces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "role"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "viewer",
+                    "editor",
+                    "admin"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "Settings": {
+        "type": "object",
+        "required": [
+          "config",
+          "yaml",
+          "file",
+          "mail",
+          "directory"
+        ],
+        "properties": {
+          "config": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "yaml": {
+            "type": "string"
+          },
+          "file": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mail": {
+            "type": "boolean"
+          },
+          "directory": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "required": [
+          "people"
+        ],
+        "properties": {
+          "people": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "email",
+                "name"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SpaceList": {
+        "type": "object",
+        "required": [
+          "spaces"
+        ],
+        "properties": {
+          "spaces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "name",
+                "description",
+                "reviewDays",
+                "readers",
+                "editors",
+                "admins",
+                "role",
+                "pages",
+                "toReview"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "reviewDays": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "readers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "editors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "admins": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "viewer",
+                    "editor",
+                    "admin"
+                  ]
+                },
+                "pages": {
+                  "type": "integer"
+                },
+                "toReview": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Tree": {
+        "type": "object",
+        "required": [
+          "space",
+          "pages"
+        ],
+        "properties": {
+          "space": {
+            "type": "string"
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "parent",
+                "position",
+                "stale",
+                "policy",
+                "template"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "parent": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "position": {
+                  "type": "integer"
+                },
+                "stale": {
+                  "type": "boolean"
+                },
+                "policy": {
+                  "type": "boolean"
+                },
+                "template": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Page": {
+        "type": "object",
+        "required": [
+          "id",
+          "space",
+          "parent",
+          "ancestors",
+          "title",
+          "html",
+          "revision",
+          "owner",
+          "ownerGone",
+          "review",
+          "policy",
+          "isTemplate",
+          "children",
+          "backlinks",
+          "changes",
+          "sections",
+          "attachments",
+          "comments",
+          "following",
+          "presence",
+          "draft",
+          "views",
+          "role",
+          "createdAt",
+          "createdBy",
+          "updatedAt",
+          "updatedBy"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "space": {
+            "type": "object",
+            "required": [
+              "key",
+              "name",
+              "readers",
+              "editors",
+              "admins"
+            ],
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "readers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "editors": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "admins": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "parent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ancestors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "title": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string",
+            "description": "Sanitized HTML: only a page's tags, links to http(s), mailto and the wiki, no script, styles or event handlers."
+          },
+          "revision": {
+            "type": "integer"
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "email",
+                  "name"
+                ],
+                "properties": {
+                  "email": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ownerGone": {
+            "type": "boolean",
+            "description": "No owner, or the owner's account is disabled or left Identity."
+          },
+          "review": {
+            "type": "object",
+            "required": [
+              "everyDays",
+              "reviewedAt",
+              "reviewedBy",
+              "due",
+              "overdueDays"
+            ],
+            "properties": {
+              "everyDays": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "reviewedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "reviewedBy": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "due": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "overdueDays": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "policy": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "version",
+                  "revision",
+                  "changedAt",
+                  "due",
+                  "readers",
+                  "read",
+                  "readByMe"
+                ],
+                "properties": {
+                  "version": {
+                    "type": "integer",
+                    "description": "Counts the versions people are asked to read; a small fix keeps it."
+                  },
+                  "revision": {
+                    "type": "integer"
+                  },
+                  "changedAt": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "due": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "By when people should have read it: changedAt plus policies.read_within."
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "readers": {
+                    "type": "integer",
+                    "description": "People who can read the space."
+                  },
+                  "read": {
+                    "type": "integer",
+                    "description": "Of them, how many confirmed this version."
+                  },
+                  "readByMe": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "isTemplate": {
+            "type": "boolean"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "backlinks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "n",
+                "kind",
+                "note",
+                "by",
+                "at",
+                "merged"
+              ],
+              "properties": {
+                "n": {
+                  "type": "integer",
+                  "description": "The page's revision this entry is about."
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "create",
+                    "edit",
+                    "restore",
+                    "review",
+                    "import",
+                    "api"
+                  ]
+                },
+                "note": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "by": {
+                  "type": "object",
+                  "required": [
+                    "email",
+                    "name"
+                  ],
+                  "properties": {
+                    "email": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "merged": {
+                  "type": "boolean",
+                  "description": "Merged with a change published while it was being written."
+                }
+              }
+            }
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attachments": {
+            "type": "integer"
+          },
+          "comments": {
+            "type": "integer",
+            "description": "Open comments."
+          },
+          "following": {
+            "type": "boolean"
+          },
+          "presence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "email",
+                "editing",
+                "section",
+                "at"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "editing": {
+                  "type": "boolean"
+                },
+                "section": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "description": "The heading the cursor is under."
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "draft": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "base",
+                  "savedAt"
+                ],
+                "properties": {
+                  "base": {
+                    "type": "integer"
+                  },
+                  "savedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "views": {
+            "type": "integer",
+            "description": "Readers in the last 30 days, one a person a day."
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "viewer",
+              "editor",
+              "admin"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string"
+          }
+        }
+      },
+      "Published": {
+        "type": "object",
+        "required": [
+          "page",
+          "merged",
+          "changed",
+          "told"
+        ],
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "merged": {
+            "type": "boolean",
+            "description": "The change was merged with one published after baseRevision."
+          },
+          "changed": {
+            "type": "boolean",
+            "description": "false when it was the same as the page already."
+          },
+          "told": {
+            "type": "integer",
+            "description": "People sent an email about it."
+          }
+        }
+      },
+      "Changes": {
+        "type": "object",
+        "required": [
+          "changes"
+        ],
+        "properties": {
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "n",
+                "kind",
+                "note",
+                "by",
+                "at",
+                "merged"
+              ],
+              "properties": {
+                "n": {
+                  "type": "integer",
+                  "description": "The page's revision this entry is about."
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "create",
+                    "edit",
+                    "restore",
+                    "review",
+                    "import",
+                    "api"
+                  ]
+                },
+                "note": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "by": {
+                  "type": "object",
+                  "required": [
+                    "email",
+                    "name"
+                  ],
+                  "properties": {
+                    "email": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "merged": {
+                  "type": "boolean",
+                  "description": "Merged with a change published while it was being written."
+                }
+              }
+            }
+          }
+        }
+      },
+      "Revision": {
+        "type": "object",
+        "required": [
+          "n",
+          "kind",
+          "note",
+          "by",
+          "at",
+          "merged",
+          "title",
+          "html"
+        ],
+        "properties": {
+          "n": {
+            "type": "integer",
+            "description": "The page's revision this entry is about."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "create",
+              "edit",
+              "restore",
+              "review",
+              "import",
+              "api"
+            ]
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "by": {
+            "type": "object",
+            "required": [
+              "email",
+              "name"
+            ],
+            "properties": {
+              "email": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "merged": {
+            "type": "boolean",
+            "description": "Merged with a change published while it was being written."
+          },
+          "title": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string",
+            "description": "Sanitized HTML: only a page's tags, links to http(s), mailto and the wiki, no script, styles or event handlers."
+          }
+        }
+      },
+      "Diff": {
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "title",
+          "changes"
+        ],
+        "properties": {
+          "from": {
+            "type": "integer"
+          },
+          "to": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "object",
+            "required": [
+              "before",
+              "after"
+            ],
+            "properties": {
+              "before": {
+                "type": "string"
+              },
+              "after": {
+                "type": "string"
+              }
+            }
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "html"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "same",
+                    "added",
+                    "removed",
+                    "changed"
+                  ]
+                },
+                "html": {
+                  "type": "string",
+                  "description": "Sanitized HTML: only a page's tags, links to http(s), mailto and the wiki, no script, styles or event handlers."
+                },
+                "words": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "text",
+                      "kind"
+                    ],
+                    "properties": {
+                      "text": {
+                        "type": "string"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "same",
+                          "added",
+                          "removed"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Draft": {
+        "type": "object",
+        "required": [
+          "base",
+          "title",
+          "html",
+          "savedAt"
+        ],
+        "properties": {
+          "base": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string",
+            "description": "Sanitized HTML: only a page's tags, links to http(s), mailto and the wiki, no script, styles or event handlers."
+          },
+          "savedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DraftSaved": {
+        "type": "object",
+        "required": [
+          "base",
+          "savedAt",
+          "revision"
+        ],
+        "properties": {
+          "base": {
+            "type": "integer"
+          },
+          "savedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "revision": {
+            "type": "integer"
+          }
+        }
+      },
+      "Presence": {
+        "type": "object",
+        "required": [
+          "revision",
+          "lastChange",
+          "people"
+        ],
+        "properties": {
+          "revision": {
+            "type": "integer"
+          },
+          "lastChange": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "n",
+                  "kind",
+                  "note",
+                  "by",
+                  "at",
+                  "merged"
+                ],
+                "properties": {
+                  "n": {
+                    "type": "integer",
+                    "description": "The page's revision this entry is about."
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "create",
+                      "edit",
+                      "restore",
+                      "review",
+                      "import",
+                      "api"
+                    ]
+                  },
+                  "note": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "by": {
+                    "type": "object",
+                    "required": [
+                      "email",
+                      "name"
+                    ],
+                    "properties": {
+                      "email": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "merged": {
+                    "type": "boolean",
+                    "description": "Merged with a change published while it was being written."
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "people": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "email",
+                "editing",
+                "section",
+                "at"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "editing": {
+                  "type": "boolean"
+                },
+                "section": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "description": "The heading the cursor is under."
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Following": {
+        "type": "object",
+        "required": [
+          "following"
+        ],
+        "properties": {
+          "following": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "required": [
+          "id",
+          "parent",
+          "body",
+          "by",
+          "at",
+          "resolvedAt",
+          "resolvedBy",
+          "canDelete"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "parent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "body": {
+            "type": "string"
+          },
+          "by": {
+            "type": "object",
+            "required": [
+              "email",
+              "name"
+            ],
+            "properties": {
+              "email": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolvedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resolvedBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "canDelete": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Comments": {
+        "type": "object",
+        "required": [
+          "comments"
+        ],
+        "properties": {
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "parent",
+                "body",
+                "by",
+                "at",
+                "resolvedAt",
+                "resolvedBy",
+                "canDelete"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "parent": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "body": {
+                  "type": "string"
+                },
+                "by": {
+                  "type": "object",
+                  "required": [
+                    "email",
+                    "name"
+                  ],
+                  "properties": {
+                    "email": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "resolvedAt": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "resolvedBy": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "canDelete": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Attachment": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type",
+          "size",
+          "url",
+          "by",
+          "at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string"
+          },
+          "by": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Attachments": {
+        "type": "object",
+        "required": [
+          "attachments"
+        ],
+        "properties": {
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "type",
+                "size",
+                "url",
+                "by",
+                "at",
+                "used"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "by": {
+                  "type": "string"
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "used": {
+                  "type": "boolean",
+                  "description": "The page links to it or shows it."
+                }
+              }
+            }
+          }
+        }
+      },
+      "SearchResults": {
+        "type": "object",
+        "required": [
+          "query",
+          "results"
+        ],
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "space",
+                "path",
+                "snippet",
+                "policy",
+                "updatedAt"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "space": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "name"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "path": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "snippet": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "text",
+                      "hit"
+                    ],
+                    "properties": {
+                      "text": {
+                        "type": "string"
+                      },
+                      "hit": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                },
+                "policy": {
+                  "type": "boolean"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Found": {
+        "type": "object",
+        "required": [
+          "pages"
+        ],
+        "properties": {
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "space",
+                "path"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "space": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "name"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "path": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Templates": {
+        "type": "object",
+        "required": [
+          "templates"
+        ],
+        "properties": {
+          "templates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "description",
+                "html",
+                "space"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "html": {
+                  "type": "string",
+                  "description": "Sanitized HTML: only a page's tags, links to http(s), mailto and the wiki, no script, styles or event handlers."
+                },
+                "space": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "Imported": {
+        "type": "object",
+        "required": [
+          "pages"
+        ],
+        "properties": {
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "space",
+                "parent",
+                "excerpt",
+                "updatedAt",
+                "updatedBy"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "space": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "name"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "parent": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "excerpt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedBy": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "required": [
+          "totals",
+          "spaces",
+          "pages"
+        ],
+        "properties": {
+          "totals": {
+            "type": "object",
+            "required": [
+              "pages",
+              "spaces",
+              "toReview",
+              "overdue60",
+              "ownerGone",
+              "reviewedThisMonth",
+              "reviewedLastMonth"
+            ],
+            "properties": {
+              "pages": {
+                "type": "integer"
+              },
+              "spaces": {
+                "type": "integer"
+              },
+              "toReview": {
+                "type": "integer"
+              },
+              "overdue60": {
+                "type": "integer"
+              },
+              "ownerGone": {
+                "type": "integer"
+              },
+              "reviewedThisMonth": {
+                "type": "integer"
+              },
+              "reviewedLastMonth": {
+                "type": "integer"
+              }
+            }
+          },
+          "spaces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "name",
+                "reviewDays"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "reviewDays": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "space",
+                "owner",
+                "ownerGone",
+                "reviewedAt",
+                "due",
+                "overdueDays",
+                "views"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "space": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "name"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "owner": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "email",
+                        "name"
+                      ],
+                      "properties": {
+                        "email": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "ownerGone": {
+                  "type": "boolean"
+                },
+                "reviewedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "due": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "overdueDays": {
+                  "type": "integer"
+                },
+                "views": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Policies": {
+        "type": "object",
+        "required": [
+          "readWithinDays",
+          "mail",
+          "policies"
+        ],
+        "properties": {
+          "readWithinDays": {
+            "type": "integer"
+          },
+          "mail": {
+            "type": "boolean"
+          },
+          "policies": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "space",
+                "version",
+                "revision",
+                "changedAt",
+                "due",
+                "readers",
+                "read",
+                "readByMe",
+                "done",
+                "overdue"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "space": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "name"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "version": {
+                  "type": "integer",
+                  "description": "Counts the versions people are asked to read; a small fix keeps it."
+                },
+                "revision": {
+                  "type": "integer"
+                },
+                "changedAt": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "due": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "By when people should have read it: changedAt plus policies.read_within."
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "readers": {
+                  "type": "integer",
+                  "description": "People who can read the space."
+                },
+                "read": {
+                  "type": "integer",
+                  "description": "Of them, how many confirmed this version."
+                },
+                "readByMe": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "done": {
+                  "type": "boolean"
+                },
+                "overdue": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PolicyDetail": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "space",
+          "version",
+          "revision",
+          "changedAt",
+          "due",
+          "readers",
+          "read",
+          "readByMe",
+          "done",
+          "overdue",
+          "notRead",
+          "readBy",
+          "reminders",
+          "canRemind"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "space": {
+            "type": "object",
+            "required": [
+              "key",
+              "name"
+            ],
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "version": {
+            "type": "integer",
+            "description": "Counts the versions people are asked to read; a small fix keeps it."
+          },
+          "revision": {
+            "type": "integer"
+          },
+          "changedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "due": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "description": "By when people should have read it: changedAt plus policies.read_within."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "readers": {
+            "type": "integer",
+            "description": "People who can read the space."
+          },
+          "read": {
+            "type": "integer",
+            "description": "Of them, how many confirmed this version."
+          },
+          "readByMe": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "done": {
+            "type": "boolean"
+          },
+          "overdue": {
+            "type": "boolean"
+          },
+          "notRead": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "email",
+                "name",
+                "groups",
+                "signedIn"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "groups": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "signedIn": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "readBy": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "email",
+                "name",
+                "at"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "reminders": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "at",
+                "sent",
+                "by"
+              ],
+              "properties": {
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "sent": {
+                  "type": "integer"
+                },
+                "by": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "canRemind": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Reminded": {
+        "type": "object",
+        "required": [
+          "sent",
+          "failed"
+        ],
+        "properties": {
+          "sent": {
+            "type": "integer",
+            "description": "Messages the mail server took."
+          },
+          "failed": {
+            "type": "integer",
+            "description": "Messages it refused or could not be reached for."
+          }
+        }
+      }
+    }
+  }
+}

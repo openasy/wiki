@@ -1,0 +1,51 @@
+# The wiki's spaces and who may read, edit and manage each one. This file is the only place they are set; a change is
+# picked up within a minute, and a file with a mistake leaves the last good one in place. Pages are written in the UI.
+wiki:
+  name: Acme handbook
+  review: 12 months # how long a page may go without a review, unless its space says otherwise
+
+# One space per team or topic. readers, editors and admins are Identity groups, by the name their groups claim
+# carries; everyone is every member. Readers read and comment, editors write, admins also mark policies and delete
+# them. Owners and admins of the wiki manage every space.
+spaces:
+  - key: engineering
+    name: Engineering
+    description: How we build, deploy and run things.
+    review: 6 months
+    readers: [engineering]
+    editors: [engineering]
+    admins: [engineering-leads]
+  - key: people
+    name: People
+    description: Leave, travel, onboarding and the policies everyone reads.
+    review: 12 months
+    readers: [everyone]
+    editors: [people-team]
+    admins: [people-leads]
+  - key: sales
+    name: Sales
+    review: 6 months
+    readers: [sales, management]
+    editors: [sales]
+
+policies:
+  read_within: 14 days # how long people have to read a new version of a policy
+
+# Groups for people who sign in with a password, or whose provider sends none, by email.
+# groups:
+#   engineering: [ana@example.com]
+
+attachments:
+  max_size: 20 MB
+
+# mail: # for policy reminders and "this page changed" notes
+#   host: smtp.example.com
+#   port: 587
+#   security: starttls
+#   user: wiki@example.com
+#   password: WIKI_SMTP_PASSWORD # the variable that holds it
+#   from: Acme Wiki <wiki@example.com>
+
+# identity: # Identity's directory, so a policy counts everyone who should read it, also those who never signed in
+#   url: https://id.example.com
+#   token: WIKI_IDENTITY_TOKEN # an API token with the viewer role there

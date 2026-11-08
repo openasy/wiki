@@ -1,0 +1,40 @@
+# Wiki. Spaces and their groups are in wiki.yaml; pages are written in the UI.
+#
+#   openssl rand -hex 32 > openasy-kek   # the product's key: sign-in secrets (ADR 0021). Keep it with your backups
+#   docker compose up -d
+#   docker compose logs wiki | grep 'no owner yet'   # the one-time link that creates the owner account
+services:
+  wiki:
+    image: ghcr.io/openasy/wiki:0.1.0
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: [/tmp]
+    ports:
+      - "127.0.0.1:8080:8080" # UI and API; put a TLS proxy in front
+    volumes:
+      - wiki-data:/data # SQLite database: pages, every revision, files, comments and who read each policy
+      - ./config:/config:ro # wiki.yaml; mount the folder so an editor's save reaches it
+    secrets:
+      - openasy-kek # mounted at /run/secrets/openasy-kek
+    environment:
+      # The address people open the wiki at; with a TLS proxy, its https:// URL. Links in mail use it.
+      WIKI_PUBLIC_URL: ${WIKI_PUBLIC_URL:-http://localhost:8080}
+      WIKI_CONFIG: /config/wiki.yaml
+      # The variables wiki.yaml names for secrets:
+      # WIKI_SMTP_PASSWORD: ${WIKI_SMTP_PASSWORD}
+      # WIKI_IDENTITY_TOKEN: ${WIKI_IDENTITY_TOKEN}
+      # Sign in with Identity or another provider (OIDC); its groups decide the spaces, see the README:
+      # OPENASY_OIDC_PROVIDER: openasy-identity
+      # OPENASY_OIDC_ISSUER: https://id.example.com
+      # OPENASY_OIDC_CLIENT_ID: wiki
+      # OPENASY_OIDC_CLIENT_SECRET: ${OPENASY_OIDC_CLIENT_SECRET}
+      # OPENASY_OIDC_DEFAULT_ROLE: user
+
+volumes:
+  wiki-data:
+
+secrets:
+  openasy-kek:
+    file: ./openasy-kek
