@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "OpenAsy Wiki",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "The company's handbook: spaces from wiki.yaml, pages with every change kept, the search, reviews and policies people confirm they have read. Anyone signed in may call it; what they read, write and manage in each space follows the space's groups, with the product role as a floor (owners and admins manage every space, editors edit and viewers read every space).",
     "license": {
       "name": "AGPL-3.0-only",
