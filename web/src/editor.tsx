@@ -159,7 +159,7 @@ function PageLinkDialog({ open, onOpenChange, onPick }: { open: boolean; onOpenC
       <ul className="wiki-list wiki-rows wiki-pick mt-2" aria-label={t("linkPage.results")}>
         {(data?.pages ?? []).slice(0, 12).map((p) => (
           <li key={p.id}>
-            <button type="button" className="flex w-full flex-col px-2 py-1.5 text-left" onClick={() => onPick(p)}>
+            <button type="button" className="flex w-full flex-col px-2 py-1.5 text-start" onClick={() => onPick(p)}>
               <span className="text-sm text-fg">{p.title}</span>
               <span className="text-2xs text-fg-muted">{[p.space.name, ...p.path].join(" / ")}</span>
             </button>

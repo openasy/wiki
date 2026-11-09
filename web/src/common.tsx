@@ -3,6 +3,7 @@ import { useAuth } from "@openasy/auth/react";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { api, MfaSetupRequired, Unauthorized } from "./api.ts";
 import type { T } from "./i18n.ts";
+import { viewerLocale } from "./i18n.ts";
 
 /** Data loading with the session; when it ends, the sign-in screen comes back. */
 export function useApi() {
@@ -68,10 +69,10 @@ export function Code({ children, label }: { children: ReactNode; label?: string 
 
 // ---------------------------------------------------------------- Formatting
 
-export const fmt = (n: number) => n.toLocaleString();
-export const date = (iso: string) => new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
-export const dayMonth = (iso: string) => new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short" });
-export const time = (iso: string) => new Date(iso).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+export const fmt = (n: number) => n.toLocaleString(viewerLocale());
+export const date = (iso: string) => new Date(iso).toLocaleDateString(viewerLocale(), { day: "numeric", month: "short", year: "numeric" });
+export const dayMonth = (iso: string) => new Date(iso).toLocaleDateString(viewerLocale(), { day: "numeric", month: "short" });
+export const time = (iso: string) => new Date(iso).toLocaleTimeString(viewerLocale(), { hour: "2-digit", minute: "2-digit" });
 
 /** When something happened, as people say it: today 10:21, 28 Oct, 2 Sep 2025. */
 export function when(iso: string, t: T) {

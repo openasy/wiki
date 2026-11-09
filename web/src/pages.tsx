@@ -1051,7 +1051,7 @@ export function HistoryPage({ id }: { id: string }) {
                   disabled={c.kind === "review"}
                   aria-current={c.kind !== "review" && c.n === current ? "true" : undefined}
                   onClick={() => setN(c.n)}
-                  className={`wiki-history-item flex w-full gap-2 px-3 py-2 text-left ${c.kind !== "review" && c.n === current ? "bg-accent-soft" : ""}`}
+                  className={`wiki-history-item flex w-full gap-2 px-3 py-2 text-start ${c.kind !== "review" && c.n === current ? "bg-accent-soft" : ""}`}
                 >
                   <Avatar name={c.by.name} size="sm" className="size-5" />
                   <span className="flex min-w-0 flex-col text-xs">
